@@ -19,17 +19,22 @@ RUN apt-get install -y curl grep sed dpkg procps && \
     curl -L "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}.deb" > tini.deb && \
     dpkg -i tini.deb && \
     rm tini.deb && \
-    apt-get clean && \
+    apt-get clean
+
+RUN pip install --upgrade pip && \
+    pip install ipyparallel && \
     conda update -n base conda && \    
     conda config --add channels conda-forge && \
     conda install --channel anaconda-nb-extensions nbbrowserpdf && \
     conda install nb_conda_kernels && \
+    conda install -c conda-forge jupyter_contrib_nbextensions && \
     conda create -n py36 python=3.6 ipykernel && \
     conda create -n py27 python=2.7 ipykernel && \
     conda install jupyter -y --quiet && \
     mkdir /opt/notebooks
-    
 
+RUN ipcluster nbextension enable
+    
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
 
