@@ -21,10 +21,12 @@ RUN apt-get install -y curl grep sed dpkg procps && \
     rm tini.deb && \
     apt-get clean && \
     conda update -n base conda && \    
-    conda install jupyter -y --quiet && \
+    conda config --add channels conda-forge && \
+    conda install --channel anaconda-nb-extensions nbbrowserpdf && \
     conda install nb_conda_kernels && \
     conda create -n py36 python=3.6 ipykernel && \
     conda create -n py27 python=2.7 ipykernel && \
+    conda install jupyter -y --quiet && \
     mkdir /opt/notebooks
     
 
