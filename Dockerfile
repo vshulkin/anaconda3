@@ -33,7 +33,11 @@ RUN pip install --upgrade pip && \
     conda install jupyter -y --quiet && \
     mkdir /opt/notebooks
 
-RUN ipcluster nbextension enable
+RUN ipcluster nbextension enable 
+
+RUN [ "/bin/bash", "-c", "source activate py27 && pip install sslyze netaddr" ] && \
+    pip install --upgrade pip && \
+    pip install sslyze netaddr
     
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
